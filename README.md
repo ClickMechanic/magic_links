@@ -1,6 +1,6 @@
 # MagicLinks
 
-Send 'magic links' to your users that grants them authorized access to your application without the need for them to sign in.
+Send 'magic links' to your users that grants them authorized access to your application without the need for them to be signed in.
 
 #### Features:
 
@@ -35,7 +35,7 @@ rails db:migrate
 
 4. Add the magic_link authentication strategy to your Devise configuration. For example, to enable magic_link authentication for 'users':
 
-####/config/initializers/devise.rb:
+#### /config/initializers/devise.rb:
 ```ruby
 config.warden do |manager|
   # adds magic_token_authentication before the devise defaults
@@ -43,7 +43,7 @@ config.warden do |manager|
 end
 ```
 
-###Usage
+### Usage
 
 To start creating magic links, you first need to specify one or more 'templates'. It is recommended that you do this by creating a magic_links initializer:
 
@@ -79,7 +79,7 @@ magic_link_for(current_user, :order_tracking, order_tracking_path, expiry: 1.wee
 Note: If a user attempts to perform an action that isn't part of the magic token's scope, they will receive a 401 and, 
 with Devise's default behavior will be redirected to a sign in page.
 
-###Magic Links Helper
+### Magic Links Helper
 By default, the magic_links helper is included in `ActionController`. If you would like to use the magic_links helpers 
 anywhere else (e.g. in views) then you can simply include the helper manually.
 e.g:
