@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe MagicLinks::Middleware::MagicTokenRedirect do
-  let(:app) { ->() { [200, {'Content-Type' => 'text/plain'}, ['OK']] } }
+  let(:app) { ->(env) { [200, {'Content-Type' => 'text/plain'}, ['OK']] } }
   let(:magic_token) { create :magic_token }
   let(:pattern) { "/#{('a'..'z').to_a.sample(2).join}/:token" }
   let(:path) { pattern.sub(':token', magic_token.token) }
