@@ -1,0 +1,15 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.7.3
+        environment:
+          PGHOST: localhost
+          PGUSER: magic_links
+          RAILS_ENV: test
+    steps:
+      - checkout
+      - run: bundle install
+      - run: bundle exec rake db:setup
+      - run: bundle exec rspec
