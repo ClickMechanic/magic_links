@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe MagicLinks::MagicTokenRedirect do
+describe MagicLinks::Middleware::MagicTokenRedirect do
   let(:app) { ->() { [200, {'Content-Type' => 'text/plain'}, ['OK']] } }
   let(:magic_token) { create :magic_token }
   let(:pattern) { "/#{('a'..'z').to_a.sample(2).join}/:token" }
@@ -65,7 +65,7 @@ describe MagicLinks::MagicTokenRedirect do
     end
   end
 
-  describe MagicLinks::MagicTokenRedirect::Handler do
+  describe MagicLinks::Middleware::MagicTokenRedirect::Handler do
     let(:env) {
       {
         'PATH_INFO' => path
