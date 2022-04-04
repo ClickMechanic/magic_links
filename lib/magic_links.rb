@@ -1,4 +1,5 @@
-require "magic_links/engine"
+require 'magic_links/engine'
+require 'magic_links/template'
 require 'magic_links/rails'
 
 module MagicLinks
