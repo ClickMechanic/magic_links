@@ -37,7 +37,7 @@ module MagicLinks
         end
 
         def redirect_request?
-          MagicLinksHelper.match?(path)
+          Templates.match?(path)
         end
 
         def magic_token
@@ -47,7 +47,7 @@ module MagicLinks
         end
 
         def token
-          @token ||= MagicLinksHelper.token_for(path)
+          @token ||= Templates.token_for(path)
         end
 
         def scope
