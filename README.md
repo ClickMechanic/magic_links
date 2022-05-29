@@ -81,11 +81,11 @@ with Devise's default behavior will be redirected to a sign in page.
 
 ### Magic Links Helper
 By default, the magic_links helper is included in `ActionController`. If you would like to use the magic_links helpers 
-anywhere else (e.g. in views) then you can simply include the helper manually.
+anywhere else (e.g. in a mailer) then you can simply include the helper manually.
 e.g:
 ```ruby
-module ApplicationHelper
-  include MagicLinks::MagicLinksHelper
+module UserMailer
+  include MagicLinks::UrlHelper
   ...
 end
 ```
