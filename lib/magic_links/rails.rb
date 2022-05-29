@@ -12,6 +12,7 @@ module MagicLinks
     end
 
     initializer 'magic_links.devise_strategy' do
+      Warden::Strategies.add(:magic_token_authentication, MagicLinks::Strategies::MagicTokenAuthentication)
       Devise.setup do |config|
         config.warden do |manager|
           manager.default_strategies(scope: :user).unshift :magic_token_authentication
