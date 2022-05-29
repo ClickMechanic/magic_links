@@ -7,7 +7,7 @@ describe MagicLinks::Middleware::MagicTokenRedirect do
   let(:path) { pattern.sub(':token', magic_token.token) }
   let(:request) { Rack::MockRequest.new(subject) }
 
-  before { MagicLinks::MagicLinksHelper.add_template(name: :test, pattern: pattern, action_scope: magic_token.action_scope, strength: :mild) }
+  before { MagicLinks.add_template(name: :test, pattern: pattern, action_scope: magic_token.action_scope, strength: :mild) }
 
   subject { described_class.new(app) }
 

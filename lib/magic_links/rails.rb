@@ -3,7 +3,7 @@ module MagicLinks
 
     initializer 'magic_links.url_helpers' do
       ActiveSupport.on_load(:action_controller) do
-        include MagicLinks::MagicLinksHelper
+        include MagicLinks::UrlHelper
       end
     end
 
