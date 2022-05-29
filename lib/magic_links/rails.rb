@@ -11,5 +11,12 @@ module MagicLinks
       app.config.middleware.insert_after ActionDispatch::Cookies, MagicLinks::Middleware::MagicTokenRedirect
     end
 
+    initializer 'magic_links.devise_strategy' do
+      Devise.setup do |config|
+        config.warden do |manager|
+          manager.default_strategies(scope: :user).unshift :magic_token_authentication
+        end
+      end
+    end
   end
 end
