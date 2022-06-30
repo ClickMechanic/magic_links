@@ -35,6 +35,28 @@ describe MagicLinks::Middleware::MagicTokenRedirect do
       expect(request.cookie_jar.encrypted[:user_magic_token]).to eq magic_token.token
     end
 
+    context 'when cookie expiry is set' do
+      let(:expiry) { 1.second }
+
+      before { MagicLinks.magic_token_cookie_expiry = expiry }
+
+      it 'overrides the cookie expiry' do
+        Rack::MockResponse.new(*subject.call(request.env))
+        expect(request.cookie_jar.encrypted[:user_magic_token]).to eq magic_token.token
+        sleep(1)
+        expect(request.cookie_jar.encrypted[:user_magic_token]).to be_nil
+      end
+
+      context 'to nil' do
+        let(:expiry) { nil }
+
+        it 'sets the token as an encrypted cookie for the given scope' do
+          Rack::MockResponse.new(*subject.call(request.env))
+          expect(request.cookie_jar.encrypted[:user_magic_token]).to eq magic_token.token
+        end
+      end
+    end
+
     context 'when the authenticatable target no longer exists' do
       before { magic_token.magic_token_authenticatable.delete }
 

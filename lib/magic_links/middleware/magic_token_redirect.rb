@@ -22,7 +22,7 @@ module MagicLinks
           return unless redirect_request?
           return root unless magic_token.present?
 
-          cookies.encrypted[magic_token_key] = magic_token.token if scope
+          cookies.encrypted[magic_token_key] = {value: magic_token.token, expires: cookie_expiry} if scope
           respond_with_redirect magic_token.target_path
         end
 
@@ -71,6 +71,10 @@ module MagicLinks
 
         def cookies
           request.cookie_jar
+        end
+
+        def cookie_expiry
+          MagicLinks.magic_token_cookie_expiry
         end
       end
     end
