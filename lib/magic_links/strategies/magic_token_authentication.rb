@@ -55,7 +55,7 @@ module MagicLinks
       end
 
       def magic_token_cookie
-        @magic_token_cookie ||= cookies.signed[magic_token_key]
+        @magic_token_cookie ||= cookies.encrypted[magic_token_key]
       end
 
       def controller

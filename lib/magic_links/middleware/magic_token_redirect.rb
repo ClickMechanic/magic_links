@@ -22,7 +22,7 @@ module MagicLinks
           return unless redirect_request?
           return root unless magic_token.present?
 
-          cookies.signed[magic_token_key] = magic_token.token if scope
+          cookies.encrypted[magic_token_key] = magic_token.token if scope
           respond_with_redirect magic_token.target_path
         end
 
