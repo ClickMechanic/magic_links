@@ -27,12 +27,34 @@ describe MagicLinks::Middleware::MagicTokenRedirect do
       expect(response.header['Location']).to eq magic_token.target_path
     end
 
-    it 'sets the token as a signed cookie for the given scope' do
+    it 'sets the token as an encrypted cookie for the given scope' do
       # the cookie itself is written by ActionDispatch::Cookies middleware
       # which acts on the response after MagicTokenRedirect.
       # Therefore we need only test that our middleware sets the cookie via ActionDispatch
       Rack::MockResponse.new(*subject.call(request.env))
-      expect(request.cookie_jar.signed[:user_magic_token]).to eq magic_token.token
+      expect(request.cookie_jar.encrypted[:user_magic_token]).to eq magic_token.token
+    end
+
+    context 'when cookie expiry is set' do
+      let(:expiry) { 1.second }
+
+      before { MagicLinks.magic_token_cookie_expiry = expiry }
+
+      it 'overrides the cookie expiry' do
+        Rack::MockResponse.new(*subject.call(request.env))
+        expect(request.cookie_jar.encrypted[:user_magic_token]).to eq magic_token.token
+        sleep(1)
+        expect(request.cookie_jar.encrypted[:user_magic_token]).to be_nil
+      end
+
+      context 'to nil' do
+        let(:expiry) { nil }
+
+        it 'sets the token as an encrypted cookie for the given scope' do
+          Rack::MockResponse.new(*subject.call(request.env))
+          expect(request.cookie_jar.encrypted[:user_magic_token]).to eq magic_token.token
+        end
+      end
     end
 
     context 'when the authenticatable target no longer exists' do

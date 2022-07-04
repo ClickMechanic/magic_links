@@ -24,7 +24,7 @@ describe MagicLinks::Strategies::MagicTokenAuthentication do
       it { is_expected.not_to be_valid }
 
       context 'when there is a cookie for the requested scope' do
-        before { request.cookie_jar.signed["#{magic_token.scope}_magic_token"] = magic_token.token }
+        before { request.cookie_jar.encrypted["#{magic_token.scope}_magic_token"] = magic_token.token }
 
         it { is_expected.to be_valid }
       end
@@ -32,7 +32,7 @@ describe MagicLinks::Strategies::MagicTokenAuthentication do
   end
 
   describe '#authenticate!' do
-    before { request.cookie_jar.signed["#{magic_token.scope}_magic_token"] = magic_token.token }
+    before { request.cookie_jar.encrypted["#{magic_token.scope}_magic_token"] = magic_token.token }
 
     context 'when all is correct' do
       it 'succeeds with the authenticatable scope' do
@@ -52,7 +52,7 @@ describe MagicLinks::Strategies::MagicTokenAuthentication do
     end
 
     context 'when the magic token does not exist' do
-      before { request.cookie_jar.signed["#{magic_token.scope}_magic_token"] = SecureRandom.urlsafe_base64(8) }
+      before { request.cookie_jar.encrypted["#{magic_token.scope}_magic_token"] = SecureRandom.urlsafe_base64(8) }
 
       it 'does not authenticate' do
         expect(subject).not_to receive(:success!)

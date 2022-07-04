@@ -6,6 +6,8 @@ require 'magic_links/strategies/magic_token_authentication'
 require 'magic_links/rails'
 
 module MagicLinks
+  mattr_accessor :magic_token_cookie_expiry, default: 1.hour
+
   def self.add_template(*args)
     MagicLinks::Templates.add(*args)
   end

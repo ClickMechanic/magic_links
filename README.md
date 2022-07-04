@@ -94,5 +94,18 @@ end
 When using the `magic_url_for` helper you'll need to specify default_url_options for your development and testing
 environments.
 
+### Magic token cookie expiry
+A magic token cookie is dropped on the client when a magic link is used. This cookie is used to authenticate subsequent 
+requests. By default, the magic token cookie expiry (not to be confused with the expiry of the magic link) is set to 
+1 hour. You can override this setting by setting it in an initializer:
+
+```ruby
+# in /config/initializers/magic_links.rb
+
+MagicLinks.magic_token_cookie_expiry = 15.minutes
+```
+
+By setting a short expiry it reduces security risks on shared devices.
+
 ## License
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
