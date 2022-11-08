@@ -42,7 +42,7 @@ module MagicLinks
     end
 
     def magic_token_for(user, path, expiry)
-      MagicToken.for(magic_token_params_for(user, path, expiry))
+      MagicToken.for(**magic_token_params_for(user, path, expiry))
     end
 
     def magic_token_params_for(user, path, expiry)
