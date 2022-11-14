@@ -2,8 +2,10 @@ module MagicLinks
   class Engine < ::Rails::Engine
 
     initializer 'magic_links.url_helpers' do
-      ActiveSupport.on_load(:action_controller) do
-        include MagicLinks::UrlHelper
+      Rails.application.reloader.to_prepare do
+        ActiveSupport.on_load(:action_controller) do
+          include MagicLinks::UrlHelper
+        end
       end
     end
 
